@@ -1,0 +1,21 @@
+
+=== 1. Import-chain smoke test ===
+All models, middleware and routes imported without error.
+
+=== 2. Auth core: bcryptjs + jsonwebtoken (same libs User.js/auth.js use) ===
+Password hashing round-trips correctly and rejects wrong passwords.
+JWT sign/verify round-trips correctly and rejects tampered tokens.
+
+=== 3. requireAuth middleware (real production middleware, not a stub) ===
+requireAuth correctly rejects missing/invalid tokens and passes valid ones through.
+
+=== 4. Pricing: calculateItemsTotal (src/utils/pricing.js) ===
+calculateItemsTotal(...) -> 54.98 (matches hand-computed expectation).
+
+=== 5. HTTP smoke test: real Express app, GET /api/health ===
+GET /api/health -> 200 { status: "ok" } over a real HTTP request to the real Express app.
+
+=== Done ===
+All checks passed. Routes that touch MongoDB (auth persistence, products, cart, orders)
+use the exact same Mongoose models shown above and are exercised end-to-end by
+connecting src/server.js to a real MONGODB_URI - see README.md "Running it for real".
